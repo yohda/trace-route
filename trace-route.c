@@ -51,15 +51,7 @@ int main(int argc, char **argv)
 		handle_status(status, sock, ipchar);
 		exit(0);
 	}
-
-	/* 이거 왜 있는거지??... 밑에 for문안에서 다시 설정을 하는데...  */
-	/*
-	if(setsockopt (sock, SOL_IP, IP_TTL, &ttl_e, sizeof(ttl_e)) < 0) {
-		perror ("setsockopt IP_TTL");
-		handle_status(status, sock, ipchar);
-	}
- 	*/
-
+	
 	t_time.tv_sec = TIME_OUT;
 	t_time.tv_usec = 0;
 	setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, &t_time, sizeof(struct timeval)); // 송신 대기(blocking)를 1초로 제한한다.
@@ -75,7 +67,7 @@ int main(int argc, char **argv)
 		ipchar = inet_ntoa64(*((struct in_addr *)domain->h_addr));
  
 		/* IPPROTO_IP or SOL_IP  */
-        	/* socket설정에서 ttl을 1씩 계속 증가시킨다. 가장 핵심적인 부분인 것 같다. */
+        	/* socket설정에서 ttl을 1씩 계속 증가시킨다. 가장 핵심적인 부분 */
 		if (setsockopt (sock, IPPROTO_IP, IP_TTL, &ttl_s, sizeof(ttl_s)) < 0) 
 			perror ("setsockopt IP_TTL");
  
